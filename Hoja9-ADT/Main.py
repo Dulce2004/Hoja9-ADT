@@ -21,3 +21,24 @@ def leer_archivo_rutas(archivo):
             grafo.add_edge(destino, origen, weight=costo)  # Añade una ruta de destino a origen con el mismo costo
 
     return grafo  # Devuelve el grafo construido
+
+def dijkstra(grafo, origen):
+    distancias = {nodo: float('inf') for nodo in grafo.nodes()}
+    distancias[origen] = 0
+    cola = [(0, origen)]  # (costo_actual, nodo)
+
+    while cola:
+        costo_actual, nodo_actual = heapq.heappop(cola)
+
+        if costo_actual > distancias[nodo_actual]:
+            continue
+
+        for vecino in grafo.neighbors(nodo_actual):
+            costo = grafo[nodo_actual][vecino]['weight']
+            nuevo_costo = distancias[nodo_actual] + costo
+
+            if nuevo_costo < distancias[vecino]:
+                distancias[vecino] = nuevo_costo
+                heapq.heappush(cola, (nuevo_costo, vecino))
+
+    return distancias
