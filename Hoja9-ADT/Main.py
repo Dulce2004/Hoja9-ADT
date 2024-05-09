@@ -22,23 +22,25 @@ def leer_archivo_rutas(archivo):
 
     return grafo  # Devuelve el grafo construido
 
+#Implementa el algoritmo de Dijkstra para encontrar las distancias más cortas
 def dijkstra(grafo, origen):
-    distancias = {nodo: float('inf') for nodo in grafo.nodes()}
-    distancias[origen] = 0
-    cola = [(0, origen)]  # (costo_actual, nodo)
+    
+    distancias = {nodo: float('inf') for nodo in grafo.nodes()}  # Inicializa las distancias a infinito para todos los nodos
+    distancias[origen] = 0  # La distancia desde el origen a sí mismo es cero
+    cola = [(0, origen)]  # Crea una cola de prioridad con la tupla (costo_actual, nodo)
 
-    while cola:
-        costo_actual, nodo_actual = heapq.heappop(cola)
+    while cola:  # Mientras la cola no esté vacía
+        costo_actual, nodo_actual = heapq.heappop(cola)  # Obtén el nodo con el menor costo actual
 
-        if costo_actual > distancias[nodo_actual]:
-            continue
+        if costo_actual > distancias[nodo_actual]:  # Si el costo actual es mayor que la distancia almacenada
+            continue  # Salta a la siguiente iteración
 
-        for vecino in grafo.neighbors(nodo_actual):
-            costo = grafo[nodo_actual][vecino]['weight']
-            nuevo_costo = distancias[nodo_actual] + costo
+        for vecino in grafo.neighbors(nodo_actual):  # Itera sobre los vecinos del nodo actual
+            costo = grafo[nodo_actual][vecino]['weight']  # Obtiene el costo de la arista hacia el vecino
+            nuevo_costo = distancias[nodo_actual] + costo  # Calcula el nuevo costo desde el origen hasta el vecino
 
-            if nuevo_costo < distancias[vecino]:
-                distancias[vecino] = nuevo_costo
-                heapq.heappush(cola, (nuevo_costo, vecino))
+            if nuevo_costo < distancias[vecino]:  # Si el nuevo costo es menor que la distancia almacenada
+                distancias[vecino] = nuevo_costo  # Actualiza la distancia más corta al vecino
+                heapq.heappush(cola, (nuevo_costo, vecino))  # Agrega el vecino a la cola de prioridad
 
-    return distancias
+    return distancias  # Devuelve las distancias más cortas
