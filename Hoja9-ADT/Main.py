@@ -44,3 +44,28 @@ def dijkstra(grafo, origen):
                 heapq.heappush(cola, (nuevo_costo, vecino))  # Agrega el vecino a la cola de prioridad
 
     return distancias  # Devuelve las distancias más cortas
+
+# Función principal que solicita al usuario la estación de salida, calcula las mejores rutas desde esa estación
+#utilizando el algoritmo de Dijkstra, y muestra los resultados.
+def main():
+    archivo_rutas = 'Rutas.txt'  # Nombre del archivo de rutas
+    grafo = leer_archivo_rutas(archivo_rutas)  # Lee el archivo y construye el grafo
+
+    print("Estaciones disponibles:")
+    print(list(grafo.nodes()))  # Muestra la lista de estaciones disponibles
+
+    estacion_salida = input("Ingrese la estación de salida: ").strip()  # Solicita la estación de salida al usuario
+
+    if estacion_salida not in grafo.nodes():  # Verifica si la estación de salida es válida
+        print("Estación de salida no válida.")  # Muestra un mensaje de error y termina la ejecución
+        return
+
+    distancias_desde_origen = dijkstra(grafo, estacion_salida)  # Calcula las distancias más cortas desde la estación de salida
+
+    print("\nMejores rutas desde", estacion_salida)  # Muestra un encabezado con la estación de salida
+    for destino, costo in distancias_desde_origen.items():  # Itera sobre las distancias más cortas
+        if destino != estacion_salida and costo != float('inf'):  # Verifica que no sea la estación de salida y que el costo no sea infinito
+            print(f"Hacia {destino}: Costo = {costo}")  # Muestra la mejor ruta y su costo
+
+if _name_ == "_main_":  # Verifica si el script se está ejecutando directamente
+    main()  # Llama a la función principal
