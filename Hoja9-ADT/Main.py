@@ -67,5 +67,5 @@ def main():
         if destino != estacion_salida and costo != float('inf'):  # Verifica que no sea la estación de salida y que el costo no sea infinito
             print(f"Hacia {destino}: Costo = {costo}")  # Muestra la mejor ruta y su costo
 
-if _name_ == "_main_":  # Verifica si el script se está ejecutando directamente
+if __name__ == "_main_":  # Verifica si el script se está ejecutando directamente
     main()  # Llama a la función principal
