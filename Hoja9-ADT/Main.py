@@ -5,6 +5,7 @@
 
 import networkx as nx  # Importa la librería NetworkX para trabajar con grafos
 import heapq  # Importa el módulo heapq para trabajar con colas de prioridad
+import matplotlib.pyplot as plt # Importa la libreria matplotlib para graficar
 
 #Lee un archivo de rutas y construye un grafo.
 def leer_archivo_rutas(archivo):
@@ -26,6 +27,13 @@ def dijkstra(grafo, origen):
     distancias[origen] = 0  # La distancia desde el origen a sí mismo es cero
     cola = [(0, origen)]  # Crea una cola de prioridad con la (costo_actual, nodo)
 
+    # Dibuja el grafo antes de ejecutar Dijkstra utilizando networkx
+    plt.figure(figsize=(10, 8))
+    pos = nx.spring_layout(grafo)
+    nx.draw_networkx(grafo, pos, with_labels=True, node_color='lightblue', node_size=1000, font_size=12, font_color='black', font_weight='bold', edge_color='gray')
+    plt.title('Grafo de Rutas')
+    plt.show()
+
     while cola:  # Mientras la cola no esté vacía
         costo_actual, nodo_actual = heapq.heappop(cola)  # Obtén el nodo con el menor costo actual
 
@@ -40,7 +48,7 @@ def dijkstra(grafo, origen):
                 distancias[vecino] = nuevo_costo  # Actualiza la distancia más corta al vecino
                 heapq.heappush(cola, (nuevo_costo, vecino))  # Agrega el vecino a la cola de prioridad
 
-    return distancias  # Devuelve las distancias más cortas
+    return distancias  # Devuelve las distancias más cortas
 
 
 # Función principal que solicita al usuario la estación de salida, calcula las mejores rutas desde esa estación
